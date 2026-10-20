@@ -354,12 +354,9 @@ class MarkdownConverter:
         """
         # Get title and frontmatter
         title = self._get_text_from_rich_text(page["properties"]["title"]["title"])
-        yaml_raw = self.frontmatter.extract_from_blocks(blocks, self.notion_client)
-        
-        # Only proceed if we have valid frontmatter
-        if not yaml_raw:
-            print(f"Skip (no valid frontmatter): {title}")
-            return None
+        yaml_raw = (
+            self.frontmatter.extract_from_blocks(blocks, self.notion_client) or "" # Proceed even if no frontmatter is found
+        )
             
         # Filter out blocks that contain the frontmatter or duplicate title
         filtered_blocks = []
